@@ -6,9 +6,19 @@ let userClickedPattern = []
 let level = 0
 
 let hasGameStart = false
+let isGameOver = false
 
 $(document).keypress(function(){
     if(!hasGameStart){
+        console.log("entered keypress")
+        nextSequence()
+        hasGameStart=true
+    }
+})
+
+$(document).click(function(){
+    if(!hasGameStart && !isGameOver){
+        console.log("entered click")
         nextSequence()
         hasGameStart=true
     }
@@ -22,6 +32,8 @@ function nextSequence(){
     const randomChosenColour = buttonColor[randomNumber]
 
     gamePattern.push(randomChosenColour)
+
+    console.log(gamePattern)
 
     $("#"+randomChosenColour).fadeOut(100).fadeIn(100).fadeOut(100).fadeIn(100)   
 
@@ -80,10 +92,18 @@ function checkAnswer(currentLevel){
             $("body").removeClass("game-over")
         },200)
 
+
         gamePattern=[]
         hasGameStart = false 
-        level = 0;
+        isGameOver = true
+        level = 0
 
-        $("#level-title").text("Game Over, Press Any Key to Restart");
+        $("#level-title").text("Game Over, Press A Key or Click to Start")
+
+        setTimeout(function(){
+            isGameOver=false
+        },1000)
+ 
     }
 }
+
